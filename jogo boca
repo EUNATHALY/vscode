@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Boca em Jogo!</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f8ff;
+      padding: 20px;
+      text-align: center;
+    }
+    .quiz-container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #ccc;
+      max-width: 500px;
+      margin: auto;
+    }
+    h1 {
+      color: #2e8b57;
+    }
+    button {
+      display: block;
+      width: 100%;
+      margin: 8px 0;
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: #e0ffff;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #afeeee;
+    }
+    .result {
+      font-size: 20px;
+      font-weight: bold;
+      color: #2e8b57;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="quiz-container">
+    <h1>🦷 Boca em Jogo!</h1>
+    <p id="question"></p>
+    <div id="answers"></div>
+    <p class="result" id="result"></p>
+  </div>
+
+  <script>
+    const quiz = [
+      {
+        question: "Qual o tempo ideal para escovar os dentes?",
+        options: ["10 segundos", "1 minuto", "2 minutos", "5 minutos"],
+        correct: 2
+      },
+      {
+        question: "Quantas vezes por dia devemos escovar os dentes?",
+        options: ["1 vez", "2 vezes", "3 vezes ou mais", "Só antes de dormir"],
+        correct: 2
+      },
+      {
+        question: "Usar fio dental é:",
+        options: ["Desnecessário", "Essencial", "Só para adultos", "Substitui a escova"],
+        correct: 1
+      },
+      {
+        question: "Chiclete sem açúcar ajuda na saúde bucal.",
+        options: ["Verdadeiro", "Falso"],
+        correct: 0
+      },
+      {
+        question: "Clareamento caseiro com bicarbonato é seguro.",
+        options: ["Verdadeiro", "Falso"],
+        correct: 1
+      },
+      {
+        question: "Se a gengiva sangra, devo parar de escovar.",
+        options: ["Verdadeiro", "Falso"],
+        correct: 1
+      },
+      {
+        question: "O que causa mau hálito com mais frequência?",
+        options: ["Estresse", "Falta de higiene bucal", "Comer chocolate", "Tomar refrigerante"],
+        correct: 1
+      },
+      {
+        question: "Qual profissional cuida da saúde bucal?",
+        options: ["Dermatologista", "Dentista", "Nutricionista", "Psicólogo"],
+        correct: 1
+      },
+      {
+        question: "Qual desses alimentos protege os dentes?",
+        options: ["Bala", "Refrigerante", "Maçã", "Bolacha recheada"],
+        correct: 2
+      }
+    ];
+
+    let current = 0;
+    let score = 0;
+
+    function showQuestion() {
+      if (current < quiz.length) {
+        document.getElementById("question").textContent = quiz[current].question;
+        const answers = document.getElementById("answers");
+        answers.innerHTML = "";
+        quiz[current].options.forEach((option, index) => {
+          const btn = document.createElement("button");
+          btn.textContent = option;
+          btn.onclick = () => checkAnswer(index);
+          answers.appendChild(btn);
+        });
+      } else {
+        showResult();
+      }
+    }
+
+    function checkAnswer(index) {
+      if (index === quiz[current].correct) {
+        score++;
+      }
+      current++;
+      showQuestion();
+    }
+
+    function showResult() {
+      const result = document.getElementById("result");
+      let feedback = "";
+      if (score <= 3) feedback = "😬 Sorriso em perigo!";
+      else if (score <= 6) feedback = "😁 Sorriso em recuperação!";
+      else feedback = "😄 Sorriso saudável!";
+      document.getElementById("question").textContent = "Fim do jogo!";
+      document.getElementById("answers").innerHTML = `
+        <p>Você acertou ${score} de ${quiz.length} perguntas.</p>
+        <p>${feedback}</p>
+        <p><strong>Dica:</strong> Escove bem os dentes, use fio dental e vá ao dentista a cada 6 meses!</p>
+      `;
+    }
+
+    showQuestion();
+  </script>
+</body>
+</html>
